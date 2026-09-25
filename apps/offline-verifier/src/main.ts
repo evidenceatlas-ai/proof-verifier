@@ -256,11 +256,13 @@ function renderAttestation(attestation: Readonly<Record<string, unknown>>): void
 function renderAssurance(attestation: Readonly<Record<string, unknown>>): void {
   const reviewer = attestation.reviewer as Readonly<Record<string, unknown>>;
   const identity = attestation.identity_assurance as Readonly<Record<string, unknown>>;
+  const methods = Array.isArray(identity.methods) ? identity.methods : [];
   setDefinitions("identity-details", [
     ["Reviewer", reviewer.display_name ?? "Name not disclosed"],
     ["Subject ID", reviewer.subject_id],
     ["Assurance level", identity.level],
-    ["Methods", (identity.methods as readonly string[]).join(", ")],
+    ["Meaning", assuranceExplanation(identity.level)],
+    ["Checks performed", methods.map(assuranceMethodLabel).join(", ")],
     ["Provider", identity.provider],
     ["Assessed at", identity.assessed_at],
     ["Policy", identity.policy_version],
@@ -279,6 +281,26 @@ function renderAssurance(attestation: Readonly<Record<string, unknown>>): void {
     ["Valid at attestation", claim.valid_at_attestation === true ? "Yes" : "No"],
     ["Grant digest", claim.grant_digest],
   ]);
+}
+
+function assuranceExplanation(level: unknown): string {
+  if (level === "A0") {
+    return "Access to the invited email address was verified when this attestation was made. This does not by itself prove natural-person identity or organisation authority.";
+  }
+  if (level === "A1") {
+    return "Access to the reviewer's work email, current organisation membership and a verified, unexpired organisation domain were checked when this attestation was made. This does not by itself prove natural-person identity or organisation authority.";
+  }
+  return "This verifier does not interpret the recorded assurance level.";
+}
+
+function assuranceMethodLabel(value: unknown): string {
+  const methods: Readonly<Record<string, string>> = {
+    email_link: "Email access with a secure link",
+    email_otp: "Email access with a one-time code",
+    active_membership: "Current organisation membership",
+    verified_organisation_domain: "Verified organisation domain",
+  };
+  return methods[String(value)] ?? String(value).replaceAll("_", " ");
 }
 
 function renderSignatureAndTimestamp(verified: VerificationOutcome): void {
