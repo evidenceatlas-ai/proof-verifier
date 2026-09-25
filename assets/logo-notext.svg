@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1024"
+   height="1024"
+   viewBox="0 0 1024 1024"
+   role="img"
+   aria-labelledby="title desc"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname=".svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview5"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     showgrid="true"
+     inkscape:zoom="1"
+     inkscape:cx="589"
+     inkscape:cy="357.5"
+     inkscape:window-width="2109"
+     inkscape:window-height="1371"
+     inkscape:window-x="20"
+     inkscape:window-y="20"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g8">
+    <inkscape:grid
+       id="grid5"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14902"
+       empspacing="5"
+       enabled="true"
+       visible="true" />
+  </sodipodi:namedview>
+  <title
+     id="title">ReviewedProof icon</title>
+  <desc
+     id="desc">White ReviewedProof glasses icon with a checkmark on a transparent background.</desc>
+  <defs
+     id="defs1">
+    <style
+       id="style1">
+      .stroke { fill: none; stroke: #FFFFFF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 18; }
+    </style>
+  </defs>
+  <g
+     class="stroke"
+     transform="translate(0,20)"
+     id="g5">
+    <line
+       x1="241.41962"
+       y1="474"
+       x2="51.419601"
+       y2="329"
+       id="line2-5" />
+    <g
+       id="g8">
+      <line
+         x1="782.25275"
+         y1="474.53552"
+         x2="972.25275"
+         y2="329.53552"
+         id="line2" />
+      <circle
+         cx="670.62262"
+         cy="470"
+         r="110"
+         id="circle3" />
+      <path
+         id="path8"
+         d="M 463.52157 467.97748 A 110 110 0 0 1 511.72571 456.85297 A 110 110 0 0 1 557.53334 466.84466 "
+         style="fill:none" />
+      <circle
+         cx="353"
+         cy="470"
+         r="110"
+         id="circle2" />
+      <path
+         d="m 615.02479,467.62229 35.54785,41.3529 72.74909,-83.6675"
+         id="path4"
+         style="stroke-width:16.0496" />
+      <line
+         x1="776"
+         y1="348"
+         x2="798"
+         y2="288"
+         id="line4" />
+      <line
+         x1="821"
+         y1="364"
+         x2="864"
+         y2="317"
+         id="line5" />
+    </g>
+  </g>
+  <metadata
+     id="metadata8">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>ReviewedProof icon</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

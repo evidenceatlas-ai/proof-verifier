@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.reviewedproof.com/schemas/operational-key-statement.v1.schema.json",
+  "title": "ReviewedProof Operational Key Statement v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["algorithm", "environment", "jwk", "kid", "not_after", "not_before", "purpose", "root_fingerprint_sha256", "schema_version"],
+  "properties": {
+    "schema_version": {"const": "rproof.operational-key-statement.v1"},
+    "kid": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$", "minLength": 1, "maxLength": 128},
+    "jwk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["crv", "kty", "x", "y"],
+      "properties": {
+        "crv": {"const": "P-256"},
+        "kty": {"const": "EC"},
+        "x": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"},
+        "y": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"}
+      }
+    },
+    "algorithm": {"const": "ES256"},
+    "environment": {"$ref": "common.v1.schema.json#/$defs/evidenceEnvironment"},
+    "purpose": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$", "minLength": 1, "maxLength": 100},
+    "root_fingerprint_sha256": {"$ref": "common.v1.schema.json#/$defs/sha256Hex"},
+    "not_before": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+    "not_after": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"}
+  }
+}

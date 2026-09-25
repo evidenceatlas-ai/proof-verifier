@@ -1,0 +1,17 @@
+{
+  "name": "@reviewedproof/verifier",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@reviewedproof/hashing": "workspace:*",
+    "@zip.js/zip.js": "2.11.4",
+    "asn1js": "3.0.10",
+    "pkijs": "3.4.0"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "canonical_thumbprint_input": "{\"crv\":\"P-256\",\"kty\":\"EC\",\"x\":\"axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpY\",\"y\":\"T-NC4v4af5uO5-tKfA-eFivOM1drMV7Oy7ZAaDe_UfU\"}",
+  "description": "RFC 7638 canonical input and ReviewedProof lowercase-hex SHA-256 display fingerprint for the P-256 generator public point. Test data only; not a trusted product root.",
+  "fingerprint_sha256": "c71d01700fb0328870f1ab580c939eea9786328764946db04470655c732f9743",
+  "human_fingerprint": "sha256:c71d01700fb0328870f1ab580c939eea9786328764946db04470655c732f9743",
+  "jwk": {
+    "crv": "P-256",
+    "kid": "test-only-p256-generator",
+    "kty": "EC",
+    "use": "sig",
+    "x": "axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpY",
+    "y": "T-NC4v4af5uO5-tKfA-eFivOM1drMV7Oy7ZAaDe_UfU"
+  },
+  "schema_version": "rproof.test-vector.root-fingerprint.v1"
+}

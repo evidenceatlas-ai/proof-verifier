@@ -1,0 +1,30 @@
+{
+  "description": "Three-entry package conformance vector. Canonical entry strings have no trailing newline.",
+  "entries": [
+    {
+      "canonical_json": "{\"byte_length\":2,\"content_hash\":{\"algorithm\":\"sha-256\",\"value\":\"06f961b802bc46ee168555f066d28f4f0e9afdf3f88174c1ee6f9de004fc30a0\"},\"entry_id\":\"doc-a\",\"media_type\":\"text/plain\",\"name\":\"A.txt\",\"position\":0,\"required\":true}",
+      "content_base64": "QQo=",
+      "content_sha256": "06f961b802bc46ee168555f066d28f4f0e9afdf3f88174c1ee6f9de004fc30a0",
+      "leaf_sha256": "2640a3eaef3696238080048aa645c6748f2827b0d6b7e34242f1bf7550fef647"
+    },
+    {
+      "canonical_json": "{\"byte_length\":2,\"content_hash\":{\"algorithm\":\"sha-256\",\"value\":\"c0cde77fa8fef97d476c10aad3d2d54fcc2f336140d073651c2dcccf1e379fd6\"},\"entry_id\":\"doc-b\",\"media_type\":\"text/plain\",\"name\":\"B.txt\",\"position\":1,\"required\":true}",
+      "content_base64": "Qgo=",
+      "content_sha256": "c0cde77fa8fef97d476c10aad3d2d54fcc2f336140d073651c2dcccf1e379fd6",
+      "leaf_sha256": "add2a9e751ddf8388c6acb351d28fa5e4e2f9e037b0cdb23547b3917ad2e3ec9"
+    },
+    {
+      "canonical_json": "{\"byte_length\":2,\"content_hash\":{\"algorithm\":\"sha-256\",\"value\":\"12f37a8a84034d3e623d726fe10e5031f4df997ac13f4d5571b5a90c41fb84fe\"},\"entry_id\":\"doc-c\",\"media_type\":\"text/plain\",\"name\":\"C.txt\",\"position\":2,\"required\":true}",
+      "content_base64": "Qwo=",
+      "content_sha256": "12f37a8a84034d3e623d726fe10e5031f4df997ac13f4d5571b5a90c41fb84fe",
+      "leaf_sha256": "c297f9d142d663897832a1294ca61a887b3aaecf80d284ffa13e0cbd8b142d3f"
+    }
+  ],
+  "expected": {
+    "package_root": "eca3295e654c570e486ad8b0c92849e9568e29bd2c0a4533e66ea2fd51931fe0",
+    "parent_ab": "186ee58eae66ff929e3c2d38ae895ade8540d34c607ff41536fb9ca6de064901"
+  },
+  "hash_algorithm": "sha-256",
+  "schema_version": "rproof.package-merkle-test-vector.v1",
+  "tree_algorithm": "rproof-rfc6962-sha256-v1"
+}

@@ -1,0 +1,4 @@
+packages:
+  - apps/offline-verifier
+  - packages/frontend/hashing
+  - packages/frontend/verifier

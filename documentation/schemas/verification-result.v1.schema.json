@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.reviewedproof.com/schemas/verification-result.v1.schema.json",
+  "title": "ReviewedProof Verification Result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artefact_match", "bundle_sha256", "checks", "current_status_checked", "environment", "execution_mode", "matched_entry_ids", "receipt_id", "receipt_integrity", "schema_version", "status", "trust_store_sha256", "trust_store_version", "verified_as_of", "verified_at", "verifier_version", "warnings"],
+  "properties": {
+    "schema_version": {"const": "rproof.verification-result.v1"},
+    "receipt_id": {
+      "oneOf": [
+        {"type": "string", "minLength": 12, "maxLength": 128},
+        {"type": "null"}
+      ]
+    },
+    "status": {"enum": ["valid", "valid_but_revoked", "superseded", "expired", "incomplete_proof", "unsupported", "invalid"]},
+    "verifier_version": {"type": "string", "minLength": 1, "maxLength": 100},
+    "trust_store_version": {"type": "string", "minLength": 1, "maxLength": 100},
+    "trust_store_sha256": {"$ref": "common.v1.schema.json#/$defs/sha256Hex"},
+    "bundle_sha256": {
+      "oneOf": [
+        {"$ref": "common.v1.schema.json#/$defs/sha256Hex"},
+        {"type": "null"}
+      ]
+    },
+    "environment": {
+      "oneOf": [
+        {"$ref": "common.v1.schema.json#/$defs/evidenceEnvironment"},
+        {"type": "null"}
+      ]
+    },
+    "execution_mode": {"enum": ["hosted", "offline", "cli", "server_assisted"]},
+    "verified_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+    "verified_as_of": {
+      "oneOf": [
+        {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+        {"type": "null"}
+      ]
+    },
+    "current_status_checked": {
+      "type": "boolean",
+      "description": "True only when current signed status was obtained from an authoritative hosted source during this verification."
+    },
+    "receipt_integrity": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+    "artefact_match": {"$ref": "common.v1.schema.json#/$defs/artefactMatchCheck"},
+    "matched_entry_ids": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {"type": "string", "minLength": 1, "maxLength": 128},
+      "uniqueItems": true
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["archive_safety", "attestation", "attestation_signature", "bundle_manifest", "bundle_signature", "identity_assurance", "lifecycle", "operational_key_statements", "organisation_authority", "package_manifest", "timestamp"],
+      "properties": {
+        "archive_safety": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+        "bundle_manifest": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+        "bundle_signature": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+        "operational_key_statements": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+        "package_manifest": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+        "attestation": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+        "attestation_signature": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+        "identity_assurance": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+        "organisation_authority": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+        "timestamp": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"},
+        "lifecycle": {"$ref": "common.v1.schema.json#/$defs/verificationCheck"}
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {"type": "string", "minLength": 1, "maxLength": 1000}
+    }
+  }
+}

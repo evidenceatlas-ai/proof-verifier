@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.reviewedproof.com/schemas/package-manifest.v1.schema.json",
+  "title": "ReviewedProof Package Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entries", "entry_count", "hash_algorithm", "manifest_id", "package_name", "package_root", "schema_version", "tree_algorithm"],
+  "properties": {
+    "schema_version": {"const": "rproof.package-manifest.v1"},
+    "manifest_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "package_name": {"type": ["string", "null"], "minLength": 1, "maxLength": 200},
+    "hash_algorithm": {"const": "sha-256"},
+    "tree_algorithm": {"const": "rproof-rfc6962-sha256-v1"},
+    "entry_count": {"type": "integer", "minimum": 1, "maximum": 100},
+    "package_root": {"$ref": "common.v1.schema.json#/$defs/sha256Hex"},
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {"$ref": "#/$defs/entry"}
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["byte_length", "content_hash", "entry_id", "media_type", "name", "position", "required"],
+      "properties": {
+        "byte_length": {"type": "integer", "minimum": 0, "maximum": 26214400},
+        "content_hash": {"$ref": "common.v1.schema.json#/$defs/sha256Digest"},
+        "entry_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "media_type": {"type": "string", "pattern": "^[a-z0-9!#$&^_.+-]+/[a-z0-9!#$&^_.+-]+$", "maxLength": 127},
+        "name": {"type": ["string", "null"], "minLength": 1, "maxLength": 255},
+        "position": {"type": "integer", "minimum": 0, "maximum": 99},
+        "required": {"type": "boolean"}
+      }
+    }
+  }
+}

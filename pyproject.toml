@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "reviewedproof-proof-verifier"
+version = "0.1.0"
+description = "Independent ReviewedProof evidence verifier"
+readme = "README.md"
+license = "MIT"
+requires-python = "==3.13.*"
+dependencies = [
+  "asn1crypto==1.5.1",
+  "cryptography==45.0.7",
+  "jsonschema==4.26.0",
+  "pyHanko==0.34.1",
+  "referencing==0.37.0",
+  "rfc8785==0.1.4",
+]
+
+[project.scripts]
+reviewedproof = "reviewedproof.application.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["packages/backend/reviewedproof"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"documentation/schemas/attestation.v1.schema.json" = "reviewedproof/_schemas/attestation.v1.schema.json"
+"documentation/schemas/attestation.v2.schema.json" = "reviewedproof/_schemas/attestation.v2.schema.json"
+"documentation/schemas/attestation.v3.schema.json" = "reviewedproof/_schemas/attestation.v3.schema.json"
+"documentation/schemas/bundle-manifest.v1.schema.json" = "reviewedproof/_schemas/bundle-manifest.v1.schema.json"
+"documentation/schemas/bundle-manifest.v2.schema.json" = "reviewedproof/_schemas/bundle-manifest.v2.schema.json"
+"documentation/schemas/bundle-manifest.v3.schema.json" = "reviewedproof/_schemas/bundle-manifest.v3.schema.json"
+"documentation/schemas/common.v1.schema.json" = "reviewedproof/_schemas/common.v1.schema.json"
+"documentation/schemas/jws-protected-header.v1.schema.json" = "reviewedproof/_schemas/jws-protected-header.v1.schema.json"
+"documentation/schemas/jws-protected-header.v2.schema.json" = "reviewedproof/_schemas/jws-protected-header.v2.schema.json"
+"documentation/schemas/jws-protected-header.v3.schema.json" = "reviewedproof/_schemas/jws-protected-header.v3.schema.json"
+"documentation/schemas/key-distrust-event.v1.schema.json" = "reviewedproof/_schemas/key-distrust-event.v1.schema.json"
+"documentation/schemas/lifecycle-event.v1.schema.json" = "reviewedproof/_schemas/lifecycle-event.v1.schema.json"
+"documentation/schemas/operational-key-statement.v1.schema.json" = "reviewedproof/_schemas/operational-key-statement.v1.schema.json"
+"documentation/schemas/package-manifest.v1.schema.json" = "reviewedproof/_schemas/package-manifest.v1.schema.json"
+"documentation/schemas/review-completion.v1.schema.json" = "reviewedproof/_schemas/review-completion.v1.schema.json"
+"documentation/schemas/status-snapshot.v1.schema.json" = "reviewedproof/_schemas/status-snapshot.v1.schema.json"
+"documentation/schemas/timestamp-evidence.v1.schema.json" = "reviewedproof/_schemas/timestamp-evidence.v1.schema.json"
+"documentation/schemas/trust-store.v1.schema.json" = "reviewedproof/_schemas/trust-store.v1.schema.json"
+"documentation/schemas/verification-result.v1.schema.json" = "reviewedproof/_schemas/verification-result.v1.schema.json"

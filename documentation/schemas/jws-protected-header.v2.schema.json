@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.reviewedproof.com/schemas/jws-protected-header.v2.schema.json",
+  "title": "ReviewedProof Decoded JWS Protected Header v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["alg", "cty", "kid", "rproof_schema", "typ"],
+  "oneOf": [
+    {"properties": {"cty": {"const": "application/rproof-attestation+json"}, "rproof_schema": {"const": "rproof.attestation.v2"}, "typ": {"const": "application/rproof-attestation+jws"}}},
+    {"properties": {"cty": {"const": "application/rproof-bundle-manifest+json"}, "rproof_schema": {"const": "rproof.bundle-manifest.v2"}, "typ": {"const": "application/rproof-bundle-manifest+jws"}}},
+    {"properties": {"cty": {"const": "application/rproof-key-distrust-event+json"}, "rproof_schema": {"const": "rproof.key-distrust-event.v1"}, "typ": {"const": "application/rproof-key-distrust-event+jws"}}},
+    {"properties": {"cty": {"const": "application/rproof-key-history+json"}, "rproof_schema": {"const": "rproof.key-history.v1"}, "typ": {"const": "application/rproof-key-history+jws"}}},
+    {"properties": {"cty": {"const": "application/rproof-lifecycle-event+json"}, "rproof_schema": {"const": "rproof.lifecycle-event.v1"}, "typ": {"const": "application/rproof-lifecycle-event+jws"}}},
+    {"properties": {"cty": {"const": "application/rproof-operational-key-statement+json"}, "rproof_schema": {"const": "rproof.operational-key-statement.v1"}, "typ": {"const": "application/rproof-operational-key-statement+jws"}}},
+    {"properties": {"cty": {"const": "application/rproof-review-completion+json"}, "rproof_schema": {"const": "rproof.review-completion.v1"}, "typ": {"const": "application/rproof-review-completion+jws"}}},
+    {"properties": {"cty": {"const": "application/rproof-status-snapshot+json"}, "rproof_schema": {"const": "rproof.status-snapshot.v1"}, "typ": {"const": "application/rproof-status-snapshot+jws"}}},
+    {"properties": {"cty": {"const": "application/rproof-verifier-latest+json"}, "rproof_schema": {"const": "rproof.verifier-latest.v1"}, "typ": {"const": "application/rproof-verifier-latest+jws"}}},
+    {"properties": {"cty": {"const": "application/rproof-verifier-release+json"}, "rproof_schema": {"const": "rproof.verifier-release.v1"}, "typ": {"const": "application/rproof-verifier-release+jws"}}}
+  ],
+  "properties": {
+    "alg": {"const": "ES256"},
+    "kid": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$", "minLength": 1, "maxLength": 128},
+    "typ": {
+      "enum": [
+        "application/rproof-attestation+jws",
+        "application/rproof-bundle-manifest+jws",
+        "application/rproof-key-distrust-event+jws",
+        "application/rproof-key-history+jws",
+        "application/rproof-lifecycle-event+jws",
+        "application/rproof-operational-key-statement+jws",
+        "application/rproof-review-completion+jws",
+        "application/rproof-status-snapshot+jws",
+        "application/rproof-verifier-latest+jws",
+        "application/rproof-verifier-release+jws"
+      ]
+    },
+    "cty": {
+      "enum": [
+        "application/rproof-attestation+json",
+        "application/rproof-bundle-manifest+json",
+        "application/rproof-key-distrust-event+json",
+        "application/rproof-key-history+json",
+        "application/rproof-lifecycle-event+json",
+        "application/rproof-operational-key-statement+json",
+        "application/rproof-review-completion+json",
+        "application/rproof-status-snapshot+json",
+        "application/rproof-verifier-latest+json",
+        "application/rproof-verifier-release+json"
+      ]
+    },
+    "rproof_schema": {
+      "enum": [
+        "rproof.attestation.v2",
+        "rproof.bundle-manifest.v2",
+        "rproof.key-distrust-event.v1",
+        "rproof.key-history.v1",
+        "rproof.lifecycle-event.v1",
+        "rproof.operational-key-statement.v1",
+        "rproof.review-completion.v1",
+        "rproof.status-snapshot.v1",
+        "rproof.verifier-latest.v1",
+        "rproof.verifier-release.v1"
+      ]
+    }
+  }
+}

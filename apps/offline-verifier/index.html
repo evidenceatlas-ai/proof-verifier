@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; font-src data:; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    >
+    <title>ReviewedProof Offline Verifier</title>
+    <link rel="stylesheet" href="assets/verifier.css">
+    <script defer src="assets/verifier.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#main-content" aria-label="ReviewedProof Offline Verifier home">
+        <span id="brand-symbol" aria-hidden="true"></span>
+        <span>ReviewedProof</span>
+      </a>
+      <div class="header-actions">
+      <button id="help-toggle" class="button button-secondary" type="button" aria-label="Help" aria-haspopup="dialog">Help</button>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Change colour theme" aria-pressed="false">
+      </button>
+      </div>
+    </header>
+    <dialog id="help-drawer" aria-labelledby="help-heading"><header><h2 id="help-heading">Verification help</h2><button id="help-close" class="button button-secondary" type="button">Close help</button></header><div id="help-content"></div></dialog>
+
+    <main id="main-content">
+      <section class="intro" aria-labelledby="page-title">
+        <h1 id="page-title">Offline Verifier</h1>
+        <p class="lede">
+          Check a portable ReviewedProof receipt without uploading it or contacting ReviewedProof.
+          Your receipt and selected files stay in this browser’s memory.
+        </p>
+      </section>
+
+      <aside id="development-warning" class="warning-banner" role="status" hidden>
+        <strong>Non-production evidence allowed.</strong>
+        Development or staging evidence is for testing only and is not production evidence.
+      </aside>
+
+      <section class="panel input-panel" aria-labelledby="select-heading">
+        <div class="section-heading">
+          <div>
+            <p class="step">Step 1</p>
+            <h2 id="select-heading">Choose an evidence package</h2>
+          </div>
+          <span class="local-badge">No data leaves this device</span>
+        </div>
+        <label id="bundle-drop-zone" class="drop-zone" for="bundle-input">
+          <span id="bundle-name" class="drop-title" aria-live="polite">Select or drop one .rproof file</span>
+          <span id="bundle-help" class="drop-help">Maximum compressed size: 20 MiB</span>
+          <input id="bundle-input" type="file" accept=".rproof,application/zip">
+        </label>
+        <label class="test-mode-control" for="allow-non-production">
+          <input id="allow-non-production" type="checkbox">
+          Allow explicitly marked development or staging evidence
+        </label>
+        <p class="field-help">
+          Leave this off for normal use. Turning it on shows a persistent test-evidence warning.
+        </p>
+        <p id="input-error" class="input-error" role="alert" hidden></p>
+        <div class="progress-row">
+          <p id="verification-progress" class="progress" role="status" aria-live="polite">
+            Waiting for an evidence package.
+          </p>
+          <button id="cancel-button" class="button button-secondary" type="button" disabled>
+            Cancel
+          </button>
+        </div>
+      </section>
+
+      <article id="verification-result" class="result" aria-labelledby="result-heading" hidden>
+        <section class="panel status-panel">
+          <p class="step">Verification result</p>
+          <h2 id="result-heading">No result yet</h2>
+          <p id="status-summary" class="status-summary"></p>
+          <dl class="summary-list">
+            <div><dt>Signed status time</dt><dd id="verified-as-of">—</dd></div>
+            <div><dt>Next update horizon</dt><dd id="next-update">—</dd></div>
+            <div><dt>Current status checked</dt><dd>No — this verifier is offline</dd></div>
+          </dl>
+        </section>
+
+        <section class="panel" aria-labelledby="match-heading">
+          <div class="section-heading">
+            <div>
+              <p class="step">Step 2</p>
+              <h2 id="match-heading">Receipt integrity and local files</h2>
+            </div>
+          </div>
+          <div class="outcome-grid">
+            <div class="outcome-card">
+              <h3>Receipt integrity</h3>
+              <p id="integrity-state" class="check-state"></p>
+              <p id="integrity-reason" class="reason-code"></p>
+            </div>
+            <div class="outcome-card">
+              <h3>Local file match</h3>
+              <p id="match-state" class="check-state"></p>
+              <p id="match-reason" class="reason-code"></p>
+            </div>
+          </div>
+          <div id="artefact-controls" class="artefact-controls" hidden>
+            <label class="file-label" for="artefacts-input">Select reviewed files to compare</label>
+            <input id="artefacts-input" type="file" multiple disabled>
+            <p class="field-help">Up to 100 files and 200 MB total. Selection order does not matter.</p>
+            <ul id="selected-files" class="selected-files"></ul>
+            <h3>Authenticated package entries</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Position</th><th>Disclosed name</th><th>Size</th><th>Digest</th><th>Match</th></tr>
+                </thead>
+                <tbody id="package-entries"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="attestation-heading">
+          <p class="step">Signed review statement</p>
+          <h2 id="attestation-heading">Exact attestation and scope</h2>
+          <blockquote id="attestation-text" class="attestation-text"></blockquote>
+          <dl id="attestation-details" class="detail-list"></dl>
+          <div id="declarations-block" hidden>
+            <h3>Template conditions</h3>
+            <ul id="declarations"></ul>
+          </div>
+        </section>
+
+        <section class="panel two-column" aria-label="Reviewer assurance and authority">
+          <div>
+            <p class="step">Reviewer assurance</p>
+            <h2>Identity assurance</h2>
+            <dl id="identity-details" class="detail-list"></dl>
+          </div>
+          <div class="column-divider">
+            <p class="step">Separate claim</p>
+            <h2>Organisation authority</h2>
+            <dl id="authority-details" class="detail-list"></dl>
+          </div>
+        </section>
+
+        <section class="panel two-column" aria-label="Signature and timestamp evidence">
+          <div>
+            <p class="step">Issuer evidence</p>
+            <h2>Signature</h2>
+            <p id="signature-summary"></p>
+          </div>
+          <div class="column-divider">
+            <p class="step">Independent time evidence</p>
+            <h2>RFC 3161 timestamp</h2>
+            <dl id="timestamp-details" class="detail-list"></dl>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="lifecycle-heading">
+          <p class="step">Historical records</p>
+          <h2 id="lifecycle-heading">Lifecycle and completion</h2>
+          <p id="lifecycle-summary"></p>
+          <ul id="lifecycle-events" class="event-list"></ul>
+          <div id="completion-block" hidden>
+            <h3>Frozen completion policy</h3>
+            <dl id="completion-details" class="detail-list"></dl>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="technical-heading">
+          <p class="step">Audit detail</p>
+          <h2 id="technical-heading">Technical details</h2>
+          <dl id="technical-details" class="detail-list technical-list"></dl>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Check</th><th>State</th><th>Reason code</th></tr></thead>
+              <tbody id="checks"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel limitations" aria-labelledby="limitations-heading">
+          <p class="step">Read before relying on this result</p>
+          <h2 id="limitations-heading">Limitations</h2>
+          <ul id="warnings"></ul>
+          <p>
+            This local verification report is unsigned and is not new attestation evidence. Retain
+            the original .rproof file as the authority.
+          </p>
+        </section>
+
+        <div class="result-actions no-print">
+          <button id="export-result" class="button button-primary" type="button" disabled>
+            Save verification-result.json
+          </button>
+          <button id="print-result" class="button button-secondary" type="button" disabled>
+            Print result
+          </button>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      Offline Verifier <span id="footer-version"></span> · No network connection is used.
+    </footer>
+  </body>
+</html>

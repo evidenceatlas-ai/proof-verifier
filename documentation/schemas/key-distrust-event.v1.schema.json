@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.reviewedproof.com/schemas/key-distrust-event.v1.schema.json",
+  "title": "ReviewedProof Key Distrust Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["affected_key_statement_sha256", "affected_kid", "affected_signing_time_range", "effective_at", "environment", "event_id", "explanation", "previous_distrust_event_sha256", "reason_code", "recorded_at", "schema_version", "sequence"],
+  "properties": {
+    "schema_version": {"const": "rproof.key-distrust-event.v1"},
+    "event_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "environment": {"$ref": "common.v1.schema.json#/$defs/evidenceEnvironment"},
+    "sequence": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "affected_kid": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$", "minLength": 1, "maxLength": 128},
+    "affected_key_statement_sha256": {"$ref": "common.v1.schema.json#/$defs/sha256Hex"},
+    "reason_code": {"$ref": "common.v1.schema.json#/$defs/reasonCode"},
+    "explanation": {"type": ["string", "null"], "maxLength": 2000},
+    "effective_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+    "recorded_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+    "affected_signing_time_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "through"],
+      "properties": {
+        "from": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+        "through": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"}
+          ]
+        }
+      }
+    },
+    "previous_distrust_event_sha256": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "common.v1.schema.json#/$defs/sha256Hex"}
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"reason_code": {"const": "other"}}},
+      "then": {"properties": {"explanation": {"type": "string", "minLength": 1}}}
+    }
+  ]
+}

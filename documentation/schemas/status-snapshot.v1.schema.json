@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.reviewedproof.com/schemas/status-snapshot.v1.schema.json",
+  "title": "ReviewedProof Status Snapshot v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_chain_head_sha256", "generated_at", "next_update_due_at", "receipt_id", "schema_version", "status", "status_snapshot_id"],
+  "properties": {
+    "schema_version": {"const": "rproof.status-snapshot.v1"},
+    "status_snapshot_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "receipt_id": {"type": "string", "minLength": 12, "maxLength": 128},
+    "status": {
+      "enum": ["valid", "valid_but_revoked", "superseded", "expired", "incomplete_proof", "invalid"]
+    },
+    "event_chain_head_sha256": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "common.v1.schema.json#/$defs/sha256Hex"}
+      ]
+    },
+    "generated_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+    "next_update_due_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"}
+  }
+}

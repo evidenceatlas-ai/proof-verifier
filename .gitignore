@@ -1,0 +1,10 @@
+.local/
+.venv/
+__pycache__/
+*.py[cod]
+*.tmp
+node_modules/
+trust/
+apps/offline-verifier/dist/
+apps/offline-verifier/src/generated/
+packages/frontend/verifier/src/generated/

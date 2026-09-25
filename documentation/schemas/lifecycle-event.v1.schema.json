@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.reviewedproof.com/schemas/lifecycle-event.v1.schema.json",
+  "title": "ReviewedProof Lifecycle Event v1",
+  "oneOf": [
+    {"$ref": "#/$defs/revokeEvent"},
+    {"$ref": "#/$defs/supersedeEvent"},
+    {"$ref": "#/$defs/expireEvent"},
+    {"$ref": "#/$defs/correctDisplayMetadataEvent"}
+  ],
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["display_name", "subject_id"],
+      "properties": {
+        "display_name": {"type": ["string", "null"], "maxLength": 200},
+        "subject_id": {"type": "string", "minLength": 8, "maxLength": 128}
+      }
+    },
+    "actorAuthority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority_reference", "authority_type", "policy_version"],
+      "properties": {
+        "authority_reference": {"type": "string", "minLength": 1, "maxLength": 200},
+        "authority_type": {"$ref": "common.v1.schema.json#/$defs/reasonCode"},
+        "policy_version": {"type": "string", "minLength": 1, "maxLength": 100}
+      }
+    },
+    "correction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "new_value", "previous_value"],
+      "properties": {
+        "field": {"$ref": "common.v1.schema.json#/$defs/reasonCode"},
+        "new_value": {"type": ["string", "null"], "maxLength": 2000},
+        "previous_value": {"type": ["string", "null"], "maxLength": 2000}
+      }
+    },
+    "revokeEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor", "actor_authority", "effective_at", "event_id", "event_type", "explanation", "previous_event_sha256", "reason_code", "receipt_id", "recorded_at", "schema_version", "sequence"],
+      "properties": {
+        "schema_version": {"const": "rproof.lifecycle-event.v1"},
+        "event_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "receipt_id": {"type": "string", "minLength": 12, "maxLength": 128},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "event_type": {"const": "revoke"},
+        "actor": {"$ref": "#/$defs/actor"},
+        "actor_authority": {"$ref": "#/$defs/actorAuthority"},
+        "effective_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+        "recorded_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+        "previous_event_sha256": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "common.v1.schema.json#/$defs/sha256Hex"}
+          ]
+        },
+        "reason_code": {
+          "enum": ["material_error", "artefact_withdrawn_or_replaced", "scope_misunderstood", "identity_or_authority_compromised", "policy_expired", "other"]
+        },
+        "explanation": {"type": ["string", "null"], "maxLength": 2000}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"reason_code": {"const": "other"}}},
+          "then": {"properties": {"explanation": {"type": "string", "minLength": 1}}}
+        }
+      ]
+    },
+    "supersedeEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor", "actor_authority", "effective_at", "event_id", "event_type", "previous_event_sha256", "purpose", "receipt_id", "recorded_at", "replacement_receipt_id", "schema_version", "sequence"],
+      "properties": {
+        "schema_version": {"const": "rproof.lifecycle-event.v1"},
+        "event_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "receipt_id": {"type": "string", "minLength": 12, "maxLength": 128},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "event_type": {"const": "supersede"},
+        "actor": {"$ref": "#/$defs/actor"},
+        "actor_authority": {"$ref": "#/$defs/actorAuthority"},
+        "effective_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+        "recorded_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+        "previous_event_sha256": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "common.v1.schema.json#/$defs/sha256Hex"}
+          ]
+        },
+        "replacement_receipt_id": {"type": "string", "minLength": 12, "maxLength": 128},
+        "purpose": {"type": "string", "minLength": 1, "maxLength": 1000}
+      }
+    },
+    "expireEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor", "actor_authority", "effective_at", "event_id", "event_type", "previous_event_sha256", "receipt_id", "recorded_at", "schema_version", "sequence"],
+      "properties": {
+        "schema_version": {"const": "rproof.lifecycle-event.v1"},
+        "event_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "receipt_id": {"type": "string", "minLength": 12, "maxLength": 128},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "event_type": {"const": "expire"},
+        "actor": {"$ref": "#/$defs/actor"},
+        "actor_authority": {"$ref": "#/$defs/actorAuthority"},
+        "effective_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+        "recorded_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+        "previous_event_sha256": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "common.v1.schema.json#/$defs/sha256Hex"}
+          ]
+        }
+      }
+    },
+    "correctDisplayMetadataEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor", "actor_authority", "corrections", "effective_at", "event_id", "event_type", "previous_event_sha256", "receipt_id", "recorded_at", "schema_version", "sequence"],
+      "properties": {
+        "schema_version": {"const": "rproof.lifecycle-event.v1"},
+        "event_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "receipt_id": {"type": "string", "minLength": 12, "maxLength": 128},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+        "event_type": {"const": "correct_display_metadata"},
+        "actor": {"$ref": "#/$defs/actor"},
+        "actor_authority": {"$ref": "#/$defs/actorAuthority"},
+        "effective_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+        "recorded_at": {"$ref": "common.v1.schema.json#/$defs/exactUtcDateTime"},
+        "previous_event_sha256": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "common.v1.schema.json#/$defs/sha256Hex"}
+          ]
+        },
+        "corrections": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 50,
+          "items": {"$ref": "#/$defs/correction"}
+        }
+      }
+    }
+  }
+}
